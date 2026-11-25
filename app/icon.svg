@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Sain's "sb." mark (same paths as components/Monogram.tsx) on a dark tile so it reads on light and dark tabs. -->
+  <rect width="64" height="64" rx="12" fill="#222222"/>
+  <g transform="translate(6.5 17) scale(0.45)">
+    <g fill="none" stroke="#ffffff" stroke-width="12">
+      <path d="M46 12H22a12 12 0 0 0 0 24h8a12 12 0 0 1 0 24H4"/>
+      <path d="M62 0v66M62 36h16a12 12 0 0 1 0 24H62"/>
+    </g>
+    <rect x="100" y="52" width="14" height="14" fill="#f0892b"/>
+  </g>
+</svg>

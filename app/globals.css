@@ -1,0 +1,176 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Colors are CSS variables so the theme can swap them; see .dark and .light-scope below. */
+@theme {
+  --color-paper: #ffffff;
+  --color-fog: #ededeb;
+  --color-line: #d6d6d3;
+  --color-muted: #6f6f6c;
+  --color-coal: #3a3a3a;
+  --color-ink: #222222;
+  --color-tangerine: #f0892b;
+  /* Fixed near-black for text on orange; it stays dark in both themes. */
+  --color-onyx: #222222;
+  /* Divider lines: black on light backgrounds, orange in dark mode and on dark sections. */
+  --color-rule: #222222;
+}
+
+@theme inline {
+  --font-sans: var(--font-archivo);
+  --font-mono: var(--font-plex-mono);
+}
+
+.dark {
+  color-scheme: dark;
+  --color-paper: #141414;
+  --color-fog: #1c1c1c;
+  --color-line: #323232;
+  --color-muted: #9a9a96;
+  --color-coal: #c9c9c5;
+  --color-ink: #ededeb;
+  --color-rule: var(--color-tangerine);
+}
+
+/* Branded pieces that keep their light-theme colors in both modes: dark sections, the intro, the brand kit. */
+.light-scope {
+  color-scheme: light;
+  --color-paper: #ffffff;
+  --color-fog: #ededeb;
+  --color-line: #d6d6d3;
+  --color-muted: #6f6f6c;
+  --color-coal: #3a3a3a;
+  --color-ink: #222222;
+  /* These pieces sit on dark backgrounds, so their dividers stay orange. */
+  --color-rule: var(--color-tangerine);
+}
+
+/* Archivo expanded width, used for display type. */
+@utility font-wide {
+  font-stretch: 125%;
+}
+
+/* Small uppercase mono labels, like the type on printed stationery. */
+@utility label {
+  font-family: var(--font-plex-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Load animations. Delays come from --d, and all are skipped when the visitor prefers reduced motion. */
+@utility animate-rise {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) var(--d, 0s) both;
+  }
+}
+
+@utility animate-drop {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: drop 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) var(--d, 0s) both;
+  }
+}
+
+/* Marker-style highlight that sweeps in from the left, line by line. */
+@utility highlight {
+  background-image: linear-gradient(var(--color-tangerine), var(--color-tangerine));
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  box-decoration-break: clone;
+  @media (prefers-reduced-motion: no-preference) {
+    animation: highlight 0.7s cubic-bezier(0.65, 0, 0.35, 1) var(--d, 0s) both;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
+@keyframes drop {
+  from {
+    opacity: 0;
+    transform: translateY(-48px) scale(1.06);
+  }
+}
+
+@keyframes highlight {
+  from {
+    background-size: 0% 100%;
+  }
+}
+
+/*
+  Intro overlay timeline: "s" draws (0.1–0.8s), "m" draws (0.3–1.0s), the dot pops (1.0–1.35s),
+  the finished logo holds, then the dark panel lifts at 1.75s and the orange one at 1.9s.
+*/
+.intro {
+  animation: intro-done 0s 2.7s forwards;
+}
+
+.intro-panel {
+  animation: intro-lift 0.75s cubic-bezier(0.76, 0, 0.24, 1) var(--d) forwards;
+}
+
+.intro-stroke {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: intro-draw 0.7s cubic-bezier(0.65, 0, 0.35, 1) var(--d, 0s) forwards;
+}
+
+.intro-dot {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: intro-pop 0.35s cubic-bezier(0.3, 1.6, 0.5, 1) 1s both;
+}
+
+.intro-fade {
+  animation: rise 0.6s ease-out 0.5s both;
+}
+
+@keyframes intro-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes intro-pop {
+  from {
+    transform: scale(0);
+  }
+}
+
+@keyframes intro-lift {
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes intro-done {
+  to {
+    visibility: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro {
+    display: none;
+  }
+}
+
+html {
+  scroll-padding-top: 5rem;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+::selection {
+  background: var(--color-tangerine);
+  color: var(--color-onyx);
+}
